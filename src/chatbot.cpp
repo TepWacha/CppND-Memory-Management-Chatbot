@@ -51,6 +51,11 @@ ChatBot::ChatBot(ChatBot &src) {
     this->_chatLogic = src._chatLogic;
     this->_image = src._image;
 
+    src._rootNode = nullptr;
+    src._currentNode = nullptr;
+    src._chatLogic = nullptr;
+    src._image = nullptr;
+
 }
 
 ChatBot &ChatBot::operator=(ChatBot &src) {
@@ -59,31 +64,42 @@ ChatBot &ChatBot::operator=(ChatBot &src) {
         this->_rootNode = src._rootNode;
         this->_currentNode = src._currentNode;
         this->_chatLogic = src._chatLogic;
+        delete this->_image;
         this->_image = src._image;
+
+        src._rootNode = nullptr;
+        src._currentNode = nullptr;
+        src._chatLogic = nullptr;
+        src._image = nullptr;
     }
     return *this;
 }
 ChatBot::ChatBot(ChatBot &&src) {
     std::cout << "ChatBot Move Constructor" << std::endl;
     this->_rootNode = src._rootNode;
-    src._rootNode = nullptr;
     this->_currentNode = src._currentNode;
-    src._currentNode = nullptr;
     this->_chatLogic = src._chatLogic;
-    src._chatLogic = nullptr;
     this->_image = src._image;
+
+    src._rootNode = nullptr;
+    src._currentNode = nullptr;
+    src._chatLogic = nullptr;
     src._image = nullptr;
 }
 ChatBot &ChatBot::operator=(ChatBot &&src) {
     std::cout << "ChatBot Move Assignment Operator" << std::endl;
     if (this != &src) {
         this->_rootNode = src._rootNode;
-        src._rootNode = nullptr;
         this->_currentNode = src._currentNode;
-        src._currentNode = nullptr;
         this->_chatLogic = src._chatLogic;
-        src._chatLogic = nullptr;
+        delete this->_image;
         this->_image = src._image;
+
+        this->_chatLogic->SetChatbotHandle(this);
+
+        src._rootNode = nullptr;
+        src._currentNode = nullptr;
+        src._chatLogic = nullptr;
         src._image = nullptr;
     }
     return *this;
